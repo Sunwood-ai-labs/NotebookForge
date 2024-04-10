@@ -1,4 +1,14 @@
-
+---
+title: NotebookForgeDemo
+emoji: 📉
+colorFrom: blue
+colorTo: pink
+sdk: streamlit
+sdk_version: 1.33.0
+app_file: app.py
+pinned: false
+license: mit
+---
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/NotebookForge/main/docs/NotebookForge_icon.png" width="100%">
