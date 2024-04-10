@@ -56,6 +56,6 @@ def create_jupyter_notebook(markdown_file, output_file):
         json.dump(notebook, file, indent=2)
 
 # 使用例
-markdown_file = 'example.md'
-output_file = 'example.ipynb'
+markdown_file = 'example/example01.md'
+output_file = 'example/example01.ipynb'
 create_jupyter_notebook(markdown_file, output_file)
