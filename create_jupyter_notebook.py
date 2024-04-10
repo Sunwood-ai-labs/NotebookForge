@@ -6,30 +6,33 @@ def create_jupyter_notebook(markdown_file, output_file):
         markdown_content = file.read()
 
     cells = []
-    chunks = re.split(r'```python\n(.*?)```', markdown_content, flags=re.DOTALL)
+    chunks = re.split(r'(#+\s.*)', markdown_content)
 
     for i in range(len(chunks)):
-        if i % 2 == 0:
-            if chunks[i].strip():
+        chunk = chunks[i].strip()
+        if chunk:
+            if chunk.startswith('#'):
                 cells.append({
                     'cell_type': 'markdown',
-                    'source': chunks[i].strip().split('\n')
-                })
-        else:
-            code_lines = chunks[i].strip().split('\n')
-            if any(line.startswith(' ') for line in code_lines):
-                cells.append({
-                    'cell_type': 'markdown',
-                    'source': ['```python\n' + chunks[i].strip() + '\n```']
+                    'source': [chunk]
                 })
             else:
-                cells.append({
-                    'cell_type': 'code',
-                    'execution_count': None,
-                    'metadata': {},
-                    'outputs': [],
-                    'source': code_lines
-                })
+                code_chunks = re.split(r'```python\n(.*?)```', chunk, flags=re.DOTALL)
+                for j in range(len(code_chunks)):
+                    if j % 2 == 0 and code_chunks[j].strip():
+                        cells.append({
+                            'cell_type': 'markdown',
+                            'source': code_chunks[j].strip().split('\n')
+                        })
+                    elif j % 2 == 1:
+                        code_lines = code_chunks[j].strip().split('\n')
+                        cells.append({
+                            'cell_type': 'code',
+                            'execution_count': None,
+                            'metadata': {},
+                            'outputs': [],
+                            'source': code_lines
+                        })
 
     notebook = {
         'nbformat': 4,
